@@ -1,0 +1,27 @@
+Alphabet:
+    - upper case and lower case letters from the English alphabet (A-Z, a-z)
+    - decimal digits (0-9) 
+    - underline character '_'
+
+Lexic:
+    a. special symbols:
+	- operators + - * / < <= == >= !=
+        - separators () [] {} ; , space 
+        - reserved words: integer, string, boolean, true, false, array, if, else, while, read, write, main
+    b. identifiers:
+        - sequence of letters and digits, the first character must be a letter; the rule is:
+		identifier ::= letter{letter|digit}
+                letter ::= "a" | "b" | ... | "z" | "A" | "B" | ... | "Z |
+                digit ::= "0" | "1" | ... | "9"
+    c. constants: 
+        1. integer - rule: 
+	      noconst ::= "+"no | "-"no | no 
+              no ::= {digit}
+        2. string 
+              constchar ::= "string" 
+              string ::= {letter | digit | special_char}
+              special_char ::= "+" | "-" | "?" | "!" | "." 
+        3. boolean
+	      constbool ::= true|false
+        
+ 

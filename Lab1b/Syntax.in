@@ -1,0 +1,19 @@
+program ::= "main" "{" cmpdstmt "}"
+decllist ::= declaration | declaration "," decllist 
+declaration ::= type space IDENTIFIER ";"
+type1 ::= "INTEGER" | "STRING" | "BOOLEAN"
+arraydecl ::= type1 "array" "[" nr "]" 
+cmpdstmt ::= "{" stmtlist "}"
+stmtlist ::= stmt | stmt ";" stmtlist
+stmt ::= simplstmt | structstmt
+simplstmt ::= assignstmt | iostmt | declaration
+assignstmt ::= IDENTIFIER "=" expression ";"
+expression ::= expression "+" term | term ";"
+term ::= term "*" factor | factor
+factor ::= "(" expression ")" | IDENTIFIER
+iostmt ::= "READ" "(" IDENTIFIER ")" | "WRITE" "(" IDENTIFIER ")" |  "WRITE" "(" CONST ")" ";"
+structstmt ::= cmpdstmt | ifstmt | whilestmt
+ifstmt ::= "IF" "(" condition ")" "{" stmt "}" [ "ELSE" "{" stmt "}"]
+whilestmt ::= "WHILE" "(" condition ")" "{" stmt "}"
+condition ::= expression RELATION expression
+RELATION ::= "<" | "<=" | "==" | "!=" | ">=" | ">"
