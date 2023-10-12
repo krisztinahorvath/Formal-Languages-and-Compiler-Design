@@ -20,7 +20,8 @@ Lexic:
         2. string 
               constchar ::= "string" 
               string ::= {letter | digit | special_char}
-              special_char ::= "+" | "-" | "?" | "!" | "." 
+              special_char ::= "+" | "-" | "=" | "." | "," | space | "?" | "!"
+              space ::= " "
         3. boolean
 	      constbool ::= true|false
         
