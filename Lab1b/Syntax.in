@@ -8,9 +8,9 @@ stmtlist ::= stmt | stmt ";" stmtlist
 stmt ::= simplstmt | structstmt
 simplstmt ::= assignstmt | iostmt | declaration
 assignstmt ::= IDENTIFIER "=" expression ";"
-expression ::= expression "+" term | term ";"
+expression ::= expression "+" term | term | term "+" expression ";"
 term ::= term "*" factor | factor
-factor ::= "(" expression ")" | IDENTIFIER
+factor ::= "(" expression ")" | IDENTIFIER | CONSTANT
 iostmt ::= "READ" "(" IDENTIFIER ")" | "WRITE" "(" IDENTIFIER ")" |  "WRITE" "(" CONST ")" ";"
 structstmt ::= cmpdstmt | ifstmt | whilestmt
 ifstmt ::= "IF" "(" condition ")" "{" stmt "}" [ "ELSE" "{" stmt "}"]
