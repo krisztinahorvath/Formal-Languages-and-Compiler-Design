@@ -92,18 +92,21 @@ public class LexicalAnalyzer {
                 "\n\nConstants symbol table " + constantsSymbolTable.toString();
     }
 
-    public void processFile(String filePath) throws IOException {
+    public String processFile(String filePath) throws IOException {
         FileReader inputStream = null;
+
+        String identifierRegex = "^[A-Za-z][A-Za-z0-9]*$"; // must start with small/capital letter, can have any number
+        Pattern identifierPattern = Pattern.compile(identifierRegex);
+
+        String integerConstantRegex = "^[+-]?[0-9]\\d*$"; // can i have 02, -02??
+        Pattern integerConstantPattern = Pattern.compile(integerConstantRegex);
+
+        String stringConstantRegex = "^\"[\\w\\d+\\-=. ?!]*\"$\n";
+        Pattern stringConstantPattern = Pattern.compile(stringConstantRegex);
+
+        String whitespaceCharacters = "\t\n\r\f\u000B";
+        StringBuilder lexicalErrors = new StringBuilder();
         try{
-            String identifierRegex = "^[A-Za-z][A-Za-z0-9]*$"; // must start with small/capital letter, can have any number
-            Pattern identifierPattern = Pattern.compile(identifierRegex);
-
-            String integerConstantRegex = "^[+-]?[1-9]\\d*$"; // can i have 02, -02??
-            Pattern integerConstantPattern = Pattern.compile(integerConstantRegex);
-
-            String stringConstantRegex = "^\"[\\w\\d+\\-=. ?!]*\"$\n";
-            Pattern stringConstantPattern = Pattern.compile(stringConstantRegex);
-
             // pot sa am si pair in PIF ca si adresa pt ST
 
             inputStream = new FileReader(filePath);
@@ -164,7 +167,7 @@ public class LexicalAnalyzer {
                                         programInternalForm.add(new Pair<>(2, atomPosST.first)); // just the pos of the first bucket for ST
 
                                     }
-                                    else throw new Exception("lexical error at line " + lineNo + " for token " + atom); // on which line is the atom?????
+                                    else lexicalErrors.append("lexical error at line ").append(lineNo).append(" for token ").append(atom).append("\n"); // on which line is the atom?????
                                 }
                             }
                         }
@@ -173,12 +176,16 @@ public class LexicalAnalyzer {
                         programInternalForm.add(new Pair<>(separatorCode, 0));
                     atom = "";
                 }
-                else if(character != '\n' && character != '\r')
+                else if(whitespaceCharacters.indexOf(c) == -1)
                     atom += character;
 
                 if(character == '\n') lineNo++;
 
             }
+
+            if (!lexicalErrors.isEmpty())
+                return lexicalErrors.toString();
+            return "Lexically correct";
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
