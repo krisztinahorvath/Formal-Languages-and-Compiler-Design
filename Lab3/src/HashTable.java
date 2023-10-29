@@ -47,6 +47,8 @@ public class HashTable<T> {
         return new Pair<>(-1, -1);
     }
 
+
+
     public void clear() {
         for (ArrayList<T> chain : table) {
             chain.clear();
@@ -55,6 +57,6 @@ public class HashTable<T> {
 
     @Override
     public String toString(){
-        return table.toString();
+        return "HashTable{items=" + table.toString() +"}";
     }
 }

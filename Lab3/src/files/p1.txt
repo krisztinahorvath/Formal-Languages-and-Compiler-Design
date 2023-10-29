@@ -1,6 +1,6 @@
 main
 {
-   integer a=100;
+   integer a;
    integer b;
    integer c;
 

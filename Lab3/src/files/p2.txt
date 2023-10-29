@@ -13,8 +13,7 @@ main
            n = n - 1;
 	}
 	write("The factorial of ");
-        write(n);
+    write(n);
 	write(" is ");
-        write(factorial); 
-     }
+    write(factorial);
 }

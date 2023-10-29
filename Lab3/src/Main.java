@@ -6,20 +6,9 @@ public class Main {
             LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
 
             System.out.println(lexicalAnalyzer.processFile("src\\files\\p1.txt"));
-            System.out.println(lexicalAnalyzer.writePIF());
-            System.out.println(lexicalAnalyzer.writeST());
-
             System.out.println(lexicalAnalyzer.processFile("src\\files\\p2.txt"));
-            System.out.println(lexicalAnalyzer.writePIF());
-            System.out.println(lexicalAnalyzer.writeST());
-
             System.out.println(lexicalAnalyzer.processFile("src\\files\\p3.txt"));
-            System.out.println(lexicalAnalyzer.writePIF());
-            System.out.println(lexicalAnalyzer.writeST());
-
-//            System.out.println(lexicalAnalyzer.processFile("src\\files\\p1err.txt"));
-//            System.out.println(lexicalAnalyzer.writePIF());
-//            System.out.println(lexicalAnalyzer.writeST());
+            System.out.println(lexicalAnalyzer.processFile("src\\files\\p1err.txt"));
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

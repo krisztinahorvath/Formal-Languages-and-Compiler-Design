@@ -1,0 +1,2 @@
+IdentifiersSymbolTable=HashTable{items=[[n], [], [], [], [], [], [], [], [], [factorial]]}
+ConstantsSymbolTable=HashTable{items=[[0], [1], [" is "], [], [], [], ["The factorial of 0 is 1"], ["The factorial of "], [], []]}

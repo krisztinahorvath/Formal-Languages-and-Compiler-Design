@@ -1,6 +1,6 @@
 public class Pair<K, V> {
-    K first;
-    V second;
+    private K first;
+    private V second;
 
     Pair(K _left, V _right) {
         this.first = _left;

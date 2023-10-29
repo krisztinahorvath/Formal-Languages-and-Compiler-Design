@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,14 +6,14 @@ import java.util.regex.Pattern;
 public class LexicalAnalyzer {
     private SymbolTable identifiersSymbolTable;
     private SymbolTable constantsSymbolTable;
+    private ArrayList<Pair<Integer, Pair<Integer, Integer>>> PIF;
     private ArrayList<Pair<String, Integer>> reservedWords;
     private ArrayList<Pair<String, Integer>> operators;
     private  ArrayList<Pair<Character, Integer>> separators;
-    private ArrayList<Pair<Integer, Pair<Integer, Integer>>> PIF;
 
     public LexicalAnalyzer() throws IOException {
-        identifiersSymbolTable = new SymbolTable(15);
-        constantsSymbolTable = new SymbolTable(15);
+        identifiersSymbolTable = new SymbolTable(10);
+        constantsSymbolTable = new SymbolTable(10);
         reservedWords = new ArrayList<>();
         operators = new ArrayList<>();
         separators = new ArrayList<>();
@@ -64,6 +62,14 @@ public class LexicalAnalyzer {
         return -1;
     }
 
+    private String getReservedWord(int pos){
+        for(Pair<String, Integer> pair: reservedWords)
+            if(pair.getSecond().equals(pos))
+                return pair.getFirst();
+
+        return null;
+    }
+
     private int getSeparatorsCode(char sep){
         for(Pair<Character, Integer> pair: separators)
             if (pair.getFirst().equals(sep))
@@ -72,25 +78,72 @@ public class LexicalAnalyzer {
         return -1;
     }
 
-    private int getOperatorsCode(String op){
-        for(Pair<String, Integer> pair: operators)
-            if(pair.getFirst().equals(op))
+    private Character getSeparator(int pos){
+        for(Pair<Character, Integer> pair: separators)
+            if(pair.getSecond().equals(pos))
+                return pair.getFirst();
+
+        return null;
+    }
+
+    private int getOperatorsCode(String op) {
+        for (Pair<String, Integer> pair : operators)
+            if (pair.getFirst().equals(op))
                 return pair.getSecond();
 
         return -1;
     }
 
-    public String writePIF(){
-        return "Program Internal Form\n" + PIF.toString();
+    private String getOperator(int pos){
+        for(Pair<String, Integer> pair: operators)
+            if(pair.getSecond().equals(pos))
+                return pair.getFirst();
+
+        return null;
     }
 
-    public String writeST(){
+    public void writeToFile(String inputFilePath) throws IOException {
+        // find the number of the input file
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(inputFilePath);
 
-        return "\nIdentifiers symbol table " + identifiersSymbolTable.toString() +
-                "\n\nConstants symbol table " + constantsSymbolTable.toString();
+        String fileNr = null;
+        if (matcher.find())
+            fileNr = matcher.group();
+
+        String pifFileName = "PIF" + fileNr + ".out";
+        String stFileName = "ST" + fileNr + ".out";
+
+
+        FileWriter pifFileWriter = new FileWriter("src\\files\\" + pifFileName);
+        for (Pair<Integer, Pair<Integer, Integer>> pair: PIF){
+            String symbol = null;
+
+            if (pair.getFirst() == 1)
+                symbol = "id";
+            else if(pair.getFirst() == 2)
+                symbol = "const";
+            else if(pair.getFirst() >= 3 && pair.getFirst() <= 11)
+                symbol = String.valueOf(getSeparator(pair.getFirst()));
+            else if(pair.getFirst() >= 12 && pair.getFirst() <= 22)
+                symbol = getOperator(pair.getFirst());
+            else if(pair.getFirst() >= 23 && pair.getFirst() <= 31)
+                symbol = getReservedWord(pair.getFirst());
+
+            pifFileWriter.write(symbol + " -> " + "(" + pair.getSecond().getFirst() + ", " + pair.getSecond().getSecond() + ")\n");
+        }
+        pifFileWriter.close();
+
+
+        FileWriter stFileWriter = new FileWriter("src\\files\\" + stFileName);
+        stFileWriter.write("IdentifiersSymbolTable=" + identifiersSymbolTable);
+        stFileWriter.write("\nConstantsSymbolTable=" + constantsSymbolTable);
+
+        stFileWriter.close();
     }
 
     // todo move things to smaller functions
+    // todo update documentation
     public String processFile(String filePath) throws IOException {
         clear(); // clear PIF and STs
 
@@ -115,8 +168,7 @@ public class LexicalAnalyzer {
             boolean insideStringConst = false;
             int lineNo = 1;
 
-            while( (c = inputStream.read())  != -1){ // will it work for the last read input??
-                // read until the first separator then check if it's a reserved word or an operator
+            while( (c = inputStream.read())  != -1){
                 char character = (char) c;
 
                 if(insideStringConst) {
@@ -198,7 +250,7 @@ public class LexicalAnalyzer {
             if (!lexicalErrors.isEmpty())
                 return "Lexically incorrect file: " + filePath + "\n" + lexicalErrors.toString();
             else {
-                // todo write to file PIF and ST
+                writeToFile(filePath);
                 return "Lexically correct file: " + filePath;
             }
         } catch (Exception e) {

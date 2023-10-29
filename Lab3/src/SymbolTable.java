@@ -22,7 +22,7 @@ public class SymbolTable {
     }
     @Override
     public String toString(){
-        return "\nSymbolTable:" + symbolTable;
+        return symbolTable.toString();
     }
 
 
