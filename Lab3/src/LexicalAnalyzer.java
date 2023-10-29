@@ -142,7 +142,6 @@ public class LexicalAnalyzer {
         stFileWriter.close();
     }
 
-    // todo move things to smaller functions
     // todo update documentation
     public String processFile(String filePath) throws IOException {
         clear(); // clear PIF and STs
@@ -152,7 +151,7 @@ public class LexicalAnalyzer {
         String identifierRegex = "^[A-Za-z][A-Za-z0-9]*$"; // must start with small/capital letter, can have any number
         Pattern identifierPattern = Pattern.compile(identifierRegex);
 
-        String integerConstantRegex = "^[+-]?[0-9]\\d*$"; // can i have 02, -02??
+        String integerConstantRegex = "^[+-]?[0-9]\\d*$";
         Pattern integerConstantPattern = Pattern.compile(integerConstantRegex);
 
         String stringConstantRegex = "^\"[\\w\\d+\\-=. ?!]*\"$";
@@ -184,7 +183,7 @@ public class LexicalAnalyzer {
                     int separatorCode = getSeparatorsCode((char) c);
 
                     if (separatorCode != -1){ // it is a separator
-                        // check the previously formed atom, if it is a reserved word or an operator, add it to PIF with ST_pos = 0
+                        // check the previously formed atom, if it is a reserved word or an operator, add it to PIF with ST_pos (-1, -1)
                         int reservedWordCode = getReservedWordCode(atom);
                         if (reservedWordCode != -1){
                             PIF.add(new Pair<>(reservedWordCode, new Pair<>(-1, -1)));
@@ -206,7 +205,7 @@ public class LexicalAnalyzer {
                                     else atomPosST = identifiersSymbolTable.getSymbolPosition(atom);
 
                                     // add to PIF the identifier, code = 1 for ids
-                                    PIF.add(new Pair<>(1, atomPosST)); // just the pos of the first bucket for ST
+                                    PIF.add(new Pair<>(1, atomPosST));
                                 }
                                 else{ // check if it is a constant
                                     matcher = integerConstantPattern.matcher(atom);
@@ -218,7 +217,7 @@ public class LexicalAnalyzer {
                                         else atomPosST = constantsSymbolTable.getSymbolPosition(atom);
 
                                         // add to PIF the identifier, code = 2 for const
-                                        PIF.add(new Pair<>(2, atomPosST)); // just the pos of the first bucket for ST
+                                        PIF.add(new Pair<>(2, atomPosST));
                                     }
                                     else {
                                         matcher = stringConstantPattern.matcher(atom);
@@ -228,7 +227,7 @@ public class LexicalAnalyzer {
                                             else atomPosST = constantsSymbolTable.getSymbolPosition(atom);
 
                                             // add to PIF the identifier, code = 2 for const
-                                            PIF.add(new Pair<>(2, atomPosST)); // just the pos of the first bucket for ST
+                                            PIF.add(new Pair<>(2, atomPosST));
 
                                         }
                                         else lexicalErrors.append("lexical error: line ").append(lineNo).append(", token ").append(atom).append("\n"); // on which line is the atom?????
