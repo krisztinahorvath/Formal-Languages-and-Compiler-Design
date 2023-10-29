@@ -1,6 +1,6 @@
 main
 {
-   integer a = 100;
+   integer a=100;
    integer b;
    integer c;
 
@@ -16,7 +16,6 @@ main
 	maxNr = c;
     }
 
-   b = -23a;
     write(maxNr);
 }
 

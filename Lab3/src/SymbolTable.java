@@ -17,6 +17,9 @@ public class SymbolTable {
         return symbolTable.getPosition(identifier);
     }
 
+    public void clear(){
+        symbolTable.clear();
+    }
     @Override
     public String toString(){
         return "\nSymbolTable:" + symbolTable;
