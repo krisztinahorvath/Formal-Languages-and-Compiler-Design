@@ -7,7 +7,7 @@ Lexic:
     a. special symbols:
 	- operators + - * / < <= == >= !=
         - separators () [] {} ; , space 
-        - reserved words: integer, string, boolean, true, false, array, if, else, while, read, write, main
+        - reserved words: integer, string, array, if, else, while, read, write, main
     b. identifiers:
         - sequence of letters and digits, the first character must be a letter; the rule is:
 		identifier ::= letter{letter|digit}
@@ -16,13 +16,12 @@ Lexic:
     c. constants: 
         1. integer - rule: 
 	      noconst ::= "+"no | "-"no | no 
-              no ::= {digit}
+              no ::= zero | [non_zero_digit]{digit}
+              zero ::= "0"
+              non_zero_digit ::= "1" | "2" | ... | "9"
         2. string 
               constchar ::= "string" 
               string ::= {letter | digit | special_char}
               special_char ::= "+" | "-" | "=" | "." | "," | space | "?" | "!"
               space ::= " "
-        3. boolean
-	      constbool ::= true|false
-        
  

@@ -1,15 +1,15 @@
 program ::= "main" "{" cmpdstmt "}"
 decllist ::= declaration | declaration "," decllist 
 declaration ::= type space IDENTIFIER ";"
-type1 ::= "INTEGER" | "STRING" | "BOOLEAN"
+type1 ::= "INTEGER" | "STRING" 
 arraydecl ::= type1 "array" "[" nr "]" 
-cmpdstmt ::= "{" stmtlist "}"
+cmpdstmt ::= stmtlist 
 stmtlist ::= stmt | stmt ";" stmtlist
 stmt ::= simplstmt | structstmt
 simplstmt ::= assignstmt | iostmt | declaration
 assignstmt ::= IDENTIFIER "=" expression ";"
-expression ::= expression "+" term | term | term "+" expression ";"
-term ::= term "*" factor | factor
+expression ::= expression "+" term | term | term "+" expression | expression "-" term | term "-" expression ";"
+term ::= term "*" factor | term "/" factor | factor 
 factor ::= "(" expression ")" | IDENTIFIER | CONSTANT
 iostmt ::= "READ" "(" IDENTIFIER ")" | "WRITE" "(" IDENTIFIER ")" |  "WRITE" "(" CONST ")" ";"
 structstmt ::= cmpdstmt | ifstmt | whilestmt
