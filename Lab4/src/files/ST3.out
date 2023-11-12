@@ -1,0 +1,2 @@
+IdentifiersSymbolTable=HashTable{items=[[n], [sum], [], [], [nr], [], [], [], [], []]}
+ConstantsSymbolTable=HashTable{items=[[0], [1], [], [], ["Sum = "], [], [], [], ["How many numbers would you like to add to the sum? "], []]}

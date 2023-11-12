@@ -1,0 +1,2 @@
+IdentifiersSymbolTable=HashTable{items=[[], [], [], [], [], [], [], [a], [b, maxNr], [c]]}
+ConstantsSymbolTable=HashTable{items=[[], [], [], [], [], [], [], [], [], []]}

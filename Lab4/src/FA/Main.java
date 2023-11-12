@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        FA fa = new FA("src\\files\\identifiersFA.in");
+        FA fa = new FA("src\\FA\\intConstFA.in");
 
         System.out.println("0. Exit");
         System.out.println("1. Print states");

@@ -1,3 +1,5 @@
+import FA.FA;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -108,11 +110,9 @@ public class LexicalAnalyzer {
 
         FileReader inputStream = null;
 
-        String identifierRegex = "^[A-Za-z][A-Za-z0-9]*$"; // must start with small/capital letter, can have any number
-        Pattern identifierPattern = Pattern.compile(identifierRegex);
+        FA identifiersFA = new FA("src\\FA\\identifiersFA.in");
 
-        String integerConstantRegex = "^[+-]?(?:0|[1-9]\\d*)$";
-        Pattern integerConstantPattern = Pattern.compile(integerConstantRegex);
+        FA integerConstantFA = new FA("src\\FA\\intConstFA.in");
 
         String stringConstantRegex = "^\"[\\w\\d+\\-=. ?!]*\"$";
         Pattern stringConstantPattern = Pattern.compile(stringConstantRegex);
@@ -156,8 +156,7 @@ public class LexicalAnalyzer {
 
                             else {
                                 // check if it is an identifier or a constant
-                                Matcher matcher = identifierPattern.matcher(atom);
-                                if(matcher.matches()){ // it is an identifier
+                                if(identifiersFA.checkAccepted(atom)){ // it is an identifier
                                     // check if it's in the ST and get its pos, otherwise add it
                                     Pair<Integer, Integer> atomPosST;
                                     if (!identifiersSymbolTable.hasSymbol(atom)) // doesn't exist we need to add it in the ST
@@ -168,10 +167,9 @@ public class LexicalAnalyzer {
                                     PIF.add(new Pair<>(1, atomPosST));
                                 }
                                 else{ // it is an integer constant
-                                    matcher = integerConstantPattern.matcher(atom);
                                     Pair<Integer, Integer> atomPosST;
 
-                                    if (matcher.matches()){
+                                    if (integerConstantFA.checkAccepted(atom)){
                                         if (!constantsSymbolTable.hasSymbol(atom)) // doesn't exist we need to add it in the ST
                                             atomPosST = constantsSymbolTable.addSymbol(atom);
                                         else atomPosST = constantsSymbolTable.getSymbolPosition(atom);
@@ -180,7 +178,7 @@ public class LexicalAnalyzer {
                                         PIF.add(new Pair<>(2, atomPosST));
                                     }
                                     else { // it is a string constant
-                                        matcher = stringConstantPattern.matcher(atom);
+                                        Matcher matcher = stringConstantPattern.matcher(atom);
                                         if (matcher.matches()){
                                             if (!constantsSymbolTable.hasSymbol(atom)) // doesn't exist we need to add it in the ST
                                                 atomPosST = constantsSymbolTable.addSymbol(atom);
