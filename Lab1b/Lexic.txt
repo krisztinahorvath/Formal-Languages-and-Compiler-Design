@@ -15,10 +15,9 @@ Lexic:
                 digit ::= "0" | "1" | ... | "9"
     c. constants: 
         1. integer - rule: 
-	      noconst ::= "+"no | "-"no | no 
-              no ::= zero | [non_zero_digit]{digit}
-              zero ::= "0"
-              non_zero_digit ::= "1" | "2" | ... | "9"
+	      intconst ::= "0" | ["+"|"-"]nz_digit{digit} 
+              nz_digit ::= "1" | "2" | ... | "9"
+	      digit ::= "0" | "1" | ... | "9"
         2. string 
               constchar ::= "string" 
               string ::= {letter | digit | special_char}
