@@ -1,11 +1,11 @@
 E E' T T' F
-+ epsilon * ( ) id
++ Є * ( ) id
 E
 E -> T E'
 E' -> + T E'
-E' -> epsilon
+E' -> Є
 T -> F T'
 T'-> * F T'
-T' -> epsilon
+T' -> Є
 F -> ( E )
 F -> id

@@ -5,45 +5,42 @@ public class Parser {
     private HashMap<String, Set<String>> followSets;
     Grammar grammar;
 
-
     public Parser(String filePath){
         firstSets = new HashMap<>();
         followSets = new HashMap<>();
         grammar = new Grammar(filePath);
     }
 
-    private void setFirstSets(){
-        for(String nonterm: grammar.getSetOfNonterminals()){
-
-            firstSets.put(nonterm, firstOf(nonterm));
-            System.out.println(nonterm);
+    private void setFirstSets() {
+        for (String nonterminal : grammar.getSetOfNonterminals()) {
+            firstSets.put(nonterminal, firstOf(nonterminal));
         }
     }
-    private Set<String> firstOf(String nonterminal){
-        if(firstSets.containsKey(nonterminal))
+
+    private Set<String> firstOf(String nonterminal) {
+        if (firstSets.containsKey(nonterminal))
             return firstSets.get(nonterminal);
 
         Set<String> result = new HashSet<>();
         List<String> terminals = grammar.getSetOfTerminals();
 
         List<List<String>> productions = grammar.getProductionsOfNonterminal(nonterminal);
-        for(List<String> production: productions){
+        for (List<String> production : productions) {
             String firstSymbol = production.get(0);
-            if(firstSymbol.equals("epsilon"))
-                result.add("epsilon");
-            else if(terminals.contains(firstSymbol))
+            if (firstSymbol.equals("Є")) {
+                result.add("Є");
+            } else if (terminals.contains(firstSymbol)) {
                 result.add(firstSymbol);
-            else{
+            } else {
                 result.addAll(firstOf(firstSymbol));
             }
-
         }
         return result;
     }
 
     private void setFollowSets() {
-        for (String nonterm : grammar.getSetOfNonterminals()) {
-            followSets.put(nonterm, followOf(nonterm));
+        for (String nonterminal : grammar.getSetOfNonterminals()) {
+            followSets.put(nonterminal, followOf(nonterminal));
         }
     }
 
@@ -67,12 +64,12 @@ public class Parser {
                     if (grammar.getSetOfNonterminals().contains(nextSymbol)) {
                         Set<String> firstOfNextSymbol = firstSets.get(nextSymbol);
 
-                        // Add everything in FIRST(nextSymbol) except epsilon to FOLLOW(nonterm)
+                        // Add everything in FIRST(nextSymbol) except Є to FOLLOW(nonterm)
                         result.addAll(firstOfNextSymbol);
-                        result.remove("epsilon");
+                        result.remove("Є");
 
-                        // If epsilon is in FIRST(nextSymbol), add FOLLOW(symbol) to FOLLOW(nonterm)
-                        if (firstOfNextSymbol.contains("epsilon")) {
+                        // If Є is in FIRST(nextSymbol), add FOLLOW(symbol) to FOLLOW(nonterm)
+                        if (firstOfNextSymbol.contains("Є")) {
                             Set<String> followOfSymbol = followOf(symbol);
                             result.addAll(followOfSymbol);
                         }
@@ -94,18 +91,17 @@ public class Parser {
         return result;
     }
 
-
-
-
     public static void main(String[] args) {
-        Parser parser = new Parser("src\\g1.txt");
+        Parser parser = new Parser("src\\g2.txt");
         parser.setFirstSets();
-
-        System.out.println("first" + parser.firstSets);
+        System.out.println("FIRST");
+        for(String key: parser.firstSets.keySet())
+            System.out.println(key + "=" + parser.firstSets.get(key));
 
         parser.setFollowSets();
-        System.out.println("follows: " + parser.followSets);
+        System.out.println("\n\nFOLLOW");
+        for(String key: parser.followSets.keySet())
+            System.out.println(key + "=" + parser.followSets.get(key));
 
     }
-
 }
