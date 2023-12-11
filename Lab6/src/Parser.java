@@ -92,7 +92,7 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        Parser parser = new Parser("src\\g2.txt");
+        Parser parser = new Parser("src\\g1.txt");
         parser.setFirstSets();
         System.out.println("FIRST");
         for(String key: parser.firstSets.keySet())

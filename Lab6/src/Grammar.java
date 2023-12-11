@@ -98,8 +98,7 @@ public class Grammar {
     }
 
     public static void main(String[] args) {
-        Grammar grammarReader = new Grammar("src\\g2.txt");
-        grammarReader.readGrammarFile();
+        Grammar grammarReader = new Grammar("src\\g1.txt");
 
         // Access the variables
         System.out.println("Non-terminals: " + grammarReader.getSetOfNonterminals());
