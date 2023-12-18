@@ -1,0 +1,55 @@
+program decllist cmpdstmt declaration type type1 arraydecl stmtlist stmt simplstmt structstmt assignstmt iostmt expression term factor ifstmt whilestmt condition relationalOperator
+identifier intConst stringConst charConst prog input output int char str given then otherwise aslongas repeat # + - * / % = < <= == != >= > , : [ ] ( ) { } a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9
+program
+program -> prog { decllist \n cmpdstmt }
+decllist -> declaration
+decllist -> declaration , decllist
+cmpdstmt -> { stmtlist }
+declaration -> type : identifier
+type -> type1
+type -> arraydecl
+type1 -> int
+type1 -> char
+type1 -> str
+arraydecl -> type1 [ number ]
+stmtlist -> stmt
+stmtlist -> stmt \n stmtlist
+stmt -> simplstmt
+stmt -> structstmt
+simplstmt -> assignstmt
+simplstmt -> iostmt
+simplstmt -> decllist
+structstmt -> cmpdstmt
+structstmt -> ifstmt
+structstmt -> whilestmt
+assignstmt -> identifier = expression
+expression -> term + expression
+expression -> term - expression
+expression -> term * expression
+expression -> term / expression
+expression -> term % expression
+expression -> term
+term -> factor + term
+term -> factor - term
+term -> factor * term
+term -> factor / term
+term -> factor % term
+term -> factor
+factor -> ( expression )
+factor -> identifier
+factor -> intConst
+factor -> stringConst
+factor -> charConst
+iostmt -> input ( identifier )
+iostmt -> output ( identifier )
+iostmt -> output ( const )
+ifstmt -> given ( condition ) then { cmpdstmt }
+ifstmt -> given ( condition ) then {cmpdstmt} otherwise {cmpdstmt}
+whilestmt -> aslongas ( condition ) repeat cmpdstmt
+condition -> expression relationalOperator expression
+relationalOperator -> ==
+relationalOperator -> <
+relationalOperator -> <=
+relationalOperator -> >
+relationalOperator -> >=
+relationalOperator -> !=
