@@ -38,8 +38,7 @@ BAD_IDENTIFIER ({DIGIT})+({LETTER})+({LETTER}|{DIGIT})*
 
 [\n]+ {++lines;}
 
-. {printf("Error at token %s at line %d\n", yytext, lines); exit(1);
-}
+. {printf("Error at token %s at line %d\n", yytext, lines); exit(1);}
 
 %%
 

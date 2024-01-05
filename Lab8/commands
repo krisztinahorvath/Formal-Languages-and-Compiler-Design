@@ -1,0 +1,3 @@
+win_flex lang.l
+gcc -o lexer lex.yy.c 
+lexer.exe p1.txt

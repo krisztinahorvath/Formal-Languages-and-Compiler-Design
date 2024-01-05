@@ -1,0 +1,209 @@
+p1.txt
+main - reserved word
+{ - separator
+integer - reserved word
+a - identifier
+; - separator
+integer - reserved word
+b - identifier
+; - separator
+integer - reserved word
+c - identifier
+; - separator
+read - reserved word
+( - separator
+a - identifier
+) - separator
+; - separator
+read - reserved word
+( - separator
+b - identifier
+) - separator
+; - separator
+read - reserved word
+( - separator
+c - identifier
+) - separator
+; - separator
+integer - reserved word
+maxNr - identifier
+= - operator
+a - identifier
+; - separator
+if - reserved word
+( - separator
+maxNr - identifier
+< - operator
+b - identifier
+) - separator
+{ - separator
+maxNr - identifier
+= - operator
+b - identifier
+; - separator
+} - separator
+if - reserved word
+( - separator
+maxNr - identifier
+< - operator
+c - identifier
+) - separator
+{ - separator
+maxNr - identifier
+= - operator
+c - identifier
+; - separator
+} - separator
+write - reserved word
+( - separator
+maxNr - identifier
+) - separator
+; - separator
+} - separator
+
+p2.txt
+main - reserved word   
+{ - separator
+integer - reserved word
+n - identifier
+; - separator
+read - reserved word   
+( - separator
+n - identifier
+) - separator
+; - separator
+integer - reserved word
+factorial - identifier 
+= - operator
+1 - integer constant   
+; - separator
+if - reserved word
+( - separator
+n - identifier
+== - operator
+0 - integer constant
+) - separator
+{ - separator
+write - reserved word
+( - separator
+"The factorial of 0 is 1" - string constant
+) - separator
+; - separator
+} - separator
+else - reserved word
+{ - separator
+while - reserved word
+( - separator
+n - identifier
+> - operator
+0 - integer constant
+) - separator
+{ - separator
+factorial - identifier
+= - operator
+factorial - identifier
+* - operator
+n - identifier
+; - separator
+n - identifier
+= - operator
+n - identifier
+- - operator
+1 - integer constant
+; - separator
+} - separator
+write - reserved word
+( - separator
+"The factorial of " - string constant
+) - separator
+; - separator
+write - reserved word
+( - separator
+n - identifier
+) - separator
+; - separator
+write - reserved word
+( - separator
+" is " - string constant
+) - separator
+; - separator
+write - reserved word
+( - separator
+factorial - identifier
+) - separator
+; - separator
+} - separator
+} - separator
+
+p3.txt
+main - reserved word
+{ - separator
+integer - reserved word
+( - separator
+n - identifier
+) - separator
+, - separator
+integer - reserved word
+( - separator
+nr - identifier
+) - separator
+; - separator
+write - reserved word
+( - separator
+"How many numbers would you like to add to the sum? " - string constant
+) - separator
+; - separator
+read - reserved word
+( - separator
+n - identifier
+) - separator
+; - separator
+integer - reserved word
+( - separator
+sum - identifier
+) - separator
+= - operator
+0 - integer constant
+; - separator
+while - reserved word
+( - separator
+n - identifier
+> - operator
+0 - integer constant
+) - separator
+{ - separator
+read - reserved word
+( - separator
+nr - identifier
+) - separator
+; - separator
+sum - identifier
+= - operator
+sum - identifier
++ - operator
+nr - identifier
+; - separator
+n - identifier
+= - operator
+n - identifier
+- - operator
+1 - integer constant
+; - separator
+} - separator
+write - reserved word
+( - separator
+"Sum = " - string constant
+) - separator
+; - separator
+write - reserved word
+( - separator
+sum - identifier
+) - separator
+; - separator
+} - separator
+
+p1err.txt
+main - reserved word       
+{ - separator
+integer - reserved word    
+ERROR at token 1a on line 2
