@@ -1,0 +1,21 @@
+S A B C D
++ * ( ) , a
+S
+S -> B A
+A -> + B A
+A -> Є
+B -> D C
+C -> * D C
+C -> Є
+D -> ( S )
+D -> a
+List<String> sequence = List.of("a", "*", "(", "a", "+", "a", ")");
+
+
+S A
+a b c
+S
+S -> a A
+A -> b A
+A -> c
+List<String> sequence = List.of("a", "b", "b", "c");

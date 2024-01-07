@@ -1,0 +1,15 @@
+prog{
+	int: #n, int: #nr, int: #sum
+
+	input(#n)
+
+	#sum = 0
+
+	aslongas (#n > 0) repeat {
+		input(#nr)
+		#sum = #sum + #nr
+		#n = #n - 1
+	}
+
+	output(#sum)
+}

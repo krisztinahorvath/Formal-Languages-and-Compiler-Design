@@ -1,0 +1,20 @@
+prog {
+
+	int: #a, int: #b, int: #c, int: mini
+
+	input(#a)
+	input(#b)
+	input(#c)
+
+	#mini = #a
+
+	given (#mini > #b) then {
+		#mini = #b
+	}
+
+	given (#mini > #c) thenn {
+		#mini = #c
+	}
+
+	output(#mini)
+}

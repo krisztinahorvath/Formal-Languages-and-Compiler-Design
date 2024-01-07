@@ -1,8 +1,16 @@
+package Models;
+
+import Utils.HashTable;
+import Utils.Pair;
+import Utils.ParseTable;
+import Utils.ParseTreeNode;
+
+import java.io.*;
 import java.util.*;
 
 public class Parser {
-    private HashMap<String, Set<String>> firstSets;
-    private HashMap<String, Set<String>> followSets;
+    public HashMap<String, Set<String>> firstSets;
+    public HashMap<String, Set<String>> followSets;
     Grammar grammar;
     ParseTable parseTable ;
     private Map<Pair<String, List<String>>, Integer> productionsNumbered;
@@ -29,7 +37,7 @@ public class Parser {
     public ParseTreeNode getParseTreeRoot() {
         return parseTreeRoot;
     }
-    private void setFirstSets() {
+    public void setFirstSets() {
         for (String nonterminal : grammar.getSetOfNonterminals()) {
             firstSets.put(nonterminal, firstOf(nonterminal));
         }
@@ -56,7 +64,7 @@ public class Parser {
         return result;
     }
 
-    private void setFollowSets() {
+    public void setFollowSets() {
         for (String nonterminal : grammar.getSetOfNonterminals()) {
             followSets.put(nonterminal, followOf(nonterminal));
         }
@@ -109,7 +117,7 @@ public class Parser {
         return result;
     }
 
-    private void createParseTable(){
+    public void createParseTable(){
         numberingProductions();
         List<String> columnSymbols = new LinkedList<>(grammar.getSetOfTerminals());
         columnSymbols.add("$");
@@ -237,17 +245,20 @@ public class Parser {
             if (betaHead.equals("$") && alphaHead.equals("$"))
                 return result;
 
-            Pair<String, String> heads = new Pair<>(betaHead, alphaHead);
-            Pair<List<String>, Integer> parseTableEntry = parseTable.get(heads);
+            Utils.Pair<String, String> heads = new Utils.Pair<>(betaHead, alphaHead);
+            Utils.Pair<List<String>, Integer> parseTableEntry = parseTable.get(heads);
 
             if (parseTableEntry == null) {
-                heads = new Pair<>(betaHead, "Є");
+                heads = new Utils.Pair<>(betaHead, "Є");
                 parseTableEntry = parseTable.get(heads);
                 if (parseTableEntry != null) {
                     beta.pop();
                     continue;
                 }
             }
+
+            System.out.println(parseTableEntry);
+
 
             if (parseTableEntry == null) {
                 go = false;
@@ -282,19 +293,137 @@ public class Parser {
 
         return result;
     }
+    public boolean parse(List<String> w, LexicalAnalyzer scanner) {
+        initializeStacks(w);
 
-    public boolean parseSource(List<Pair<Integer, Integer>> pif) {
-        List<String> sequence = new LinkedList<>();
-        for (Pair<Integer, Integer> pifEntry : pif) {
-            sequence.add(String.valueOf(pifEntry.getFirst()));
+        ParseTreeNode currentParent = parseTreeRoot;
+        boolean go = true;
+        boolean result = true;
+
+        while (go) {
+            String betaHead = beta.peek();
+            String alphaHead = alpha.peek();
+
+            if (betaHead.equals("$") && alphaHead.equals("$"))
+                return result;
+
+            Pair<String, String> heads = new Pair<>(betaHead, alphaHead);
+            Pair<List<String>, Integer> parseTableEntry = parseTable.get(heads);
+
+            if (parseTableEntry == null) {
+                heads = new Pair<>(betaHead, "Є");
+                parseTableEntry = parseTable.get(heads);
+                if (parseTableEntry != null) {
+                    beta.pop();
+                    continue;
+                }
+            }
+
+            if(parseTableEntry == null && scanner.getReservedWords().contains(alphaHead)){
+                // Use the lookahead token to find the appropriate parse table entry
+                parseTableEntry = parseTable.get(new Pair<>(betaHead, betaHead));
+            }
+
+            // Check if alphaHead is an identifier
+            if (parseTableEntry == null && scanner.getSymbolTable().search(alphaHead) != null) {
+                // Use the lookahead token to find the appropriate parse table entry
+                parseTableEntry = parseTable.get(new Pair<>(betaHead, betaHead));
+            }
+
+            if (parseTableEntry == null) {
+                go = false;
+                result = false;
+            } else {
+                List<String> production = parseTableEntry.getFirst();
+                Integer productionPos = parseTableEntry.getSecond();
+
+                if (productionPos == -1 && production.get(0).equals("acc")) {
+                    go = false;
+                } else if (productionPos == -1 && production.get(0).equals("pop")) {
+                    beta.pop();
+                    alpha.pop();
+                } else {
+                    beta.pop();
+                    if (!production.get(0).equals("Є")) {
+                        // Handle identifier or constant recognition
+                        String token = alphaHead;
+                        int tokenCode = scanner.getTokenCode(token);
+                        if (tokenCode == -1 || tokenCode == -2) {
+                            // Token is an identifier or constant, check symbol table
+                            if (!scanner.isIdentifier(token) && !(scanner.isConstant(token))) {
+                                System.out.println("Error: Identifier or constant '" + token + "' not found in symbol table.");
+                                result = false;
+                                break;
+                            }
+                        }
+
+                        pushAsChars(production, beta);
+                        pushIntoTree(production, currentParent);
+                    }
+
+                    pi.push(productionPos.toString());
+                    if (!currentParent.getChildren().isEmpty()) // get first non-term child
+                        for (ParseTreeNode child : currentParent.getChildren())
+                            if (grammar.getSetOfNonterminals().contains(child.getSymbol())) {
+                                currentParent = child;
+                                break;
+                            }
+                }
+            }
         }
 
-        return this.parse(sequence);
+        return result;
+    }
+
+    public static List<String> processProgramInternalForm(List<Pair<Integer, Pair<Integer, Integer>>> programInternalForm, LexicalAnalyzer scanner) throws IOException {
+        List<String> result = new ArrayList<>();
+
+        for (Pair<Integer, Pair<Integer, Integer>> entry : programInternalForm) {
+            int tokenCode = entry.getFirst();
+            Pair<Integer, Integer> position = entry.getSecond();
+
+            if (position.getFirst() == -1 && position.getSecond() == -1) {
+                // Case 1: Reserved Word, Operator, or Separator
+                if (tokenCode >= 1 && tokenCode <= 11) {
+                    result.add(scanner.getReservedWords().get(tokenCode - 1));
+                } else if (tokenCode >= 12 && tokenCode <= 23) {
+                    result.add(scanner.getOperators().get(tokenCode - 12));
+                } else if (tokenCode >= 24 && tokenCode <= 31) {
+                    result.add(scanner.getSeparators().get(tokenCode - 24));
+                }
+            } else {
+                // Case 2: Identifier or Constant
+
+                HashTable<Object> symbolTable = scanner.getSymbolTable();
+                String tokenValue = (String) symbolTable.searchByPosition(position);
+                if (tokenCode == -1) {
+                    result.add(tokenValue);
+                } else if (tokenCode == -2) {
+                    result.add(tokenValue);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static List<String> readSequence() {
+        List<String> seq = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("src\\resources\\seq.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                seq.add(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return seq;
     }
 
 
-    public static void main(String[] args) {
-        Parser parser = new Parser("src\\g2.txt");
+    public static void main(String[] args) throws IOException {
+        Parser parser = new Parser("src\\resources\\g2.txt");
         parser.setFirstSets();
         System.out.println("FIRST");
         for(String key: parser.firstSets.keySet())
@@ -309,10 +438,14 @@ public class Parser {
         parser.createParseTable();
         System.out.println(parser.getParseTable());
 
-        //List<String> sequence = List.of("a", "*", "(", "a", "+", "a", ")");
-        List<String> sequence = List.of("a", "b", "b", "c");
-        //List<String> sequence = List.of("program", "{","int", ":", "#a", "}");
-        if (parser.parse(sequence))
+//        List<String> sequence = List.of("a", "*", "(", "a", "+", "a", ")");
+//        List<String> sequence = readSequence();
+        LexicalAnalyzer scanner = new LexicalAnalyzer();
+        scanner.scanProgram("src\\resources\\p1.in", "src\\resources\\p1_ST.out", "src\\resources\\p1_PIF.out");
+        List<String> sequence = processProgramInternalForm(scanner.getProgramInternalForm(), scanner);
+        System.out.println(sequence);
+
+        if (parser.parse(sequence, scanner))
             System.out.println("Sequence accepted!");
         else
             System.out.println("Sequence not accepted!");
@@ -326,6 +459,6 @@ public class Parser {
 
         // display the resulting table
         parserOutput.displayTableRecords();
-        parserOutput.writeToFile("src\\out1.txt");
+        parserOutput.writeToFile("src\\outputs\\out2.txt");
     }
 }

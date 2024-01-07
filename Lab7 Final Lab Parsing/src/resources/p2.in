@@ -1,0 +1,17 @@
+prog {
+	int: #a, int: #b
+
+	input(#a)
+	input(#b)
+
+	aslongas (#a != #b) repeat {
+		given (#a > #b) then {
+			#a = #a - #b
+		}
+		otherwise {
+			#b = #b - #a
+		}
+	}
+
+	output(#a)
+}
