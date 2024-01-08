@@ -1,0 +1,21 @@
+main
+{
+     integer n;
+     read(n);
+     
+     integer factorial;
+     factorial = 1;
+     if (n == 0){
+     	write("The factorial of 0 is 1");
+     } 	  
+     else {
+        while (n > 0) {
+           factorial = factorial * n;
+           n = n - 1;
+	}
+	write("The factorial of ");
+        write(n);
+	write(" is ");
+        write(factorial); 
+     }
+}

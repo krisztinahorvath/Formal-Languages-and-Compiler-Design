@@ -1,0 +1,420 @@
+p1.txt
+main - reserved word
+{ - separator
+integer - reserved word
+Type -> INTEGER
+a - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+integer - reserved word
+Type -> INTEGER
+b - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+integer - reserved word
+Type -> INTEGER
+c - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+read - reserved word
+( - separator
+a - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+read - reserved word
+( - separator
+b - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+read - reserved word
+( - separator
+c - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+integer - reserved word
+Type -> INTEGER
+maxNr - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+maxNr - identifier
+= - operator
+a - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+if - reserved word
+( - separator
+maxNr - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+< - operator
+Expression -> Term
+Relation -> <
+b - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+) - separator
+Expression -> Term
+Condition -> Expression RELATION Expression
+{ - separator
+maxNr - identifier
+= - operator
+b - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+} - separator
+StmtList -> Stmt
+if - reserved word
+IfStmt -> if (Condition) { StmtList }
+Stmt -> IfStmt
+( - separator
+maxNr - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+< - operator
+Expression -> Term
+Relation -> <
+c - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+) - separator
+Expression -> Term
+Condition -> Expression RELATION Expression
+{ - separator
+maxNr - identifier
+= - operator
+c - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+} - separator
+StmtList -> Stmt
+write - reserved word
+IfStmt -> if (Condition) { StmtList }
+Stmt -> IfStmt
+( - separator
+maxNr - identifier
+) - separator
+; - separator
+IOStmt -> write ( IDENTIFIER ) ;
+Stmt -> IOStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+CmpdStmt -> StmtList
+Program -> main { CmpdStmt }
+
+p2.txt
+main - reserved word
+{ - separator
+integer - reserved word
+Type -> INTEGER
+n - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+read - reserved word
+( - separator
+n - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+integer - reserved word
+Type -> INTEGER
+factorial - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+factorial - identifier
+= - operator
+1 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+if - reserved word
+( - separator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+== - operator
+Expression -> Term
+Relation -> ==
+0 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+) - separator
+Expression -> Term
+Condition -> Expression RELATION Expression
+{ - separator
+write - reserved word
+( - separator
+"The factorial of 0 is 1" - string constant
+) - separator
+; - separator
+IOStmt -> write ( STRINGCONSTANT ) ;
+Stmt -> IOStmt
+} - separator
+StmtList -> Stmt
+else - reserved word
+{ - separator
+while - reserved word
+( - separator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+> - operator
+Expression -> Term
+Relation -> >
+0 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+) - separator
+Expression -> Term
+Condition -> Expression RELATION Expression
+{ - separator
+factorial - identifier
+= - operator
+factorial - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+* - operator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Term * Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+n - identifier
+= - operator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+- - operator
+Expression -> Term
+1 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+; - separator
+Expression -> Expression - Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+WhileStmt -> while (Condition) { StmtList }
+Stmt -> WhileStmt
+write - reserved word
+( - separator
+"The factorial of " - string constant
+) - separator
+; - separator
+IOStmt -> write ( STRINGCONSTANT ) ;
+Stmt -> IOStmt
+write - reserved word
+( - separator
+n - identifier
+) - separator
+; - separator
+IOStmt -> write ( IDENTIFIER ) ;
+Stmt -> IOStmt
+write - reserved word
+( - separator
+" is " - string constant
+) - separator
+; - separator
+IOStmt -> write ( STRINGCONSTANT ) ;
+Stmt -> IOStmt
+write - reserved word
+( - separator
+factorial - identifier
+) - separator
+; - separator
+IOStmt -> write ( IDENTIFIER ) ;
+Stmt -> IOStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+IfStmt -> if (Condition) { StmtList } else { StmtList }
+Stmt -> IfStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+CmpdStmt -> StmtList
+Program -> main { CmpdStmt }
+        OK
+
+p3.txt
+main - reserved word
+{ - separator
+integer - reserved word
+Type -> INTEGER
+n - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+integer - reserved word
+Type -> INTEGER
+nr - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+write - reserved word
+( - separator
+"How many numbers would you like to add to the sum? " - string constant
+) - separator
+; - separator
+IOStmt -> write ( STRINGCONSTANT ) ;
+Stmt -> IOStmt
+read - reserved word
+( - separator
+n - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+integer - reserved word
+Type -> INTEGER
+sum - identifier
+; - separator
+Declaration -> Type IDENTIFIER ;
+Stmt -> Declaration
+sum - identifier
+= - operator
+0 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+; - separator
+Expression -> Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+while - reserved word
+( - separator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+> - operator
+Expression -> Term
+Relation -> >
+0 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+) - separator
+Expression -> Term
+Condition -> Expression RELATION Expression
+{ - separator
+read - reserved word
+( - separator
+nr - identifier
+) - separator
+; - separator
+IOStmt -> read ( IDENTIFIER ) ;
+Stmt -> IOStmt
+sum - identifier
+= - operator
+sum - identifier
+Factor -> IDENTIFIER
+Term -> Factor
++ - operator
+Expression -> Term
+nr - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+; - separator
+Expression -> Expression + Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+n - identifier
+= - operator
+n - identifier
+Factor -> IDENTIFIER
+Term -> Factor
+- - operator
+Expression -> Term
+1 - integer constant
+Factor -> INTCONSTANT
+Term -> Factor
+; - separator
+Expression -> Expression - Term
+AssignStmt -> IDENTIFIER = Expression ;
+Stmt -> AssignStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+WhileStmt -> while (Condition) { StmtList }
+Stmt -> WhileStmt
+write - reserved word
+( - separator
+"Sum = " - string constant
+) - separator
+; - separator
+IOStmt -> write ( STRINGCONSTANT ) ;
+Stmt -> IOStmt
+write - reserved word
+( - separator
+sum - identifier
+) - separator
+; - separator
+IOStmt -> write ( IDENTIFIER ) ;
+Stmt -> IOStmt
+} - separator
+StmtList -> Stmt
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+StmtList -> Stmt StmtList
+CmpdStmt -> StmtList
+Program -> main { CmpdStmt }
+        OK
+
+p1err.txt
+main - reserved word
+{ - separator
+integer - reserved word
+Type -> INTEGER
+Error at token 1a at line 2
+Error: syntax error

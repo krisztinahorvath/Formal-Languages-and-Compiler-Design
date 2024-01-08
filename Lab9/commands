@@ -1,0 +1,5 @@
+win_flex --header-file=lexer.h scanner.l
+win_bison -d parser.y
+win_flex -o lexer.c scanner.l
+gcc -o parser parser.tab.c lexer.c
+parser.exe p1.txt

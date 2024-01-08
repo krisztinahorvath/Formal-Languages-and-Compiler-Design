@@ -1,0 +1,18 @@
+main
+{
+   integer n;
+   integer nr;
+   write("How many numbers would you like to add to the sum? ");
+   read(n);
+
+   integer sum;
+   sum = 0;
+   while (n > 0) {
+	read(nr);
+	sum = sum + nr;
+	n = n - 1;
+   }
+
+   write("Sum = ");
+   write(sum);
+}
